@@ -18,9 +18,10 @@ class OrdersController < ApplicationController
 
     # chainsを全て結合する
     methods = chains.join(".")
+    # チェーンメソッドを全て実行
+    @orders = eval "Order.#{methods}.limit(#{limit}).order(:orderDateTime)"
 
-    json = eval "Order.#{methods}.limit(#{limit}).order(:orderDateTime)"
-    render json: json, status: 200
+    render "search", :formats => [:json], :handlers => [:jbuilder], status: 200
   end
 
   private
@@ -66,6 +67,7 @@ class OrdersController < ApplicationController
   def findByOrderTagsIncludeAll(param)
   end
 
+  # 指定されたタグがひとつでも含まれる注文情報のみ返す
   def findByOrderTagsIncludeAny(param)
   end
 end
