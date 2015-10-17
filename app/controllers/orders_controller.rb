@@ -1,32 +1,25 @@
 class OrdersController < ApplicationController
   def search
-    # chains = []
-    # limit = 100 # default
+    chains = []
+    limit = 100 # default
 
-    # # 条件はandでつながれる
-    # params.each do |e|
-    #   method_name, param = e.shift
+    # 条件はandでつながれる
+    params.each do |e|
+      method_name, param = e[0], e[1]
 
-    #   if method_name == "limit"
-    #     limit = param
-    #   else 
-    #     # sendはチェーンメソッドの文字列を返す
-    #     chains << send("#{method_name}", param)
-    #   end
+      if method_name == "limit"
+        limit = param
+      elsif method_name =~ /^find/
+        # sendで呼ばれる各メソッドは
+        # チェーンメソッド用の文字列を返す
+        chains << send("#{method_name}", param)
+      end
+    end
 
-    #   # 最後にlimitをくっつける！
-    #   chains << "limit(#{limit})"
+    # chainsを全て結合する
+    methods = chains.join(".")
 
-    #   # chainsを全て結合する
-    #   record_method = chains.join(".")
-
-    #   binding.pry
-    #   # 実行
-    #   json = eval "Order.#{record_method}"
-    #   render json: json, status: 200
-    # end
-    limit = 10
-    json = eval "Order.all.limit(#{limit})"
+    json = eval "Order.#{methods}.limit(#{limit})"
     render json: json, status: 200
   end
 
