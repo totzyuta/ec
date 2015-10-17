@@ -1,3 +1,3 @@
 Rails.application.routes.draw do
-  get "getOrder/:orderId", to: "orders#show", :format => :json
+  get "searchOrder", to: "orders#search", format: :json
 end
