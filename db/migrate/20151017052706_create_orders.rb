@@ -1,7 +1,7 @@
 class CreateOrders < ActiveRecord::Migration
   def change
-    create_table :orders do |t|
-      t.string :orderId
+    create_table :orders, id: false do |t|
+      t.integer :orderId
       t.datetime :orderDateTime
       t.string :orderUserId
       t.string :orderUserId
@@ -9,8 +9,7 @@ class CreateOrders < ActiveRecord::Migration
       t.integer :orderQuantity
       t.string :orderState
       t.string :tag
-
-      t.timestamps null: false
     end
+    execute "ALTER TABLE orders ADD PRIMARY KEY (orderId);"
   end
 end
