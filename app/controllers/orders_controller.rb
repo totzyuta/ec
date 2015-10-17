@@ -19,7 +19,7 @@ class OrdersController < ApplicationController
     # chainsを全て結合する
     methods = chains.join(".")
 
-    json = eval "Order.#{methods}.limit(#{limit})"
+    json = eval "Order.#{methods}.limit(#{limit}).order(:orderDateTime)"
     render json: json, status: 200
   end
 
@@ -29,34 +29,37 @@ class OrdersController < ApplicationController
   def findByOrderDateTimeGTE(param)
     # NOTE: データはorderDateTime順 
     # => ひとつ境界線がわかればあとは計算しなくてもわかる
-    "where('orderDateTime > #{param}')"
+    "where(\"orderDateTime > ?\", #{param})"
   end
 
   # 指定された日時以前
   def findByOrderDateTimeLTE(param)
-    "where(\"orderDateTime > ?\", #{param})"
+    "where(\"orderDateTime < ?\", #{param})"
   end
   
   # orderUserIdが指定されたもののみ
   def findByOrderUserId(param)
-    "where(orderUserId: #{param})"
+    "where(orderUserId: '#{param}')"
   end
   
   # orderItemIdが指定されたもののみ
   def findByOrderItemId(param)
-    "where(orderItemId: #{param})"
+    "where(orderItemId: '#{param}')"
   end
 
   #  orderQuantityが指定された値以上のもののみ返す
   def findByOrderQuantityGTE(param)
+    "where(\"orderQuantity >= ?\", #{params})"
   end
 
   # orderQuantityが指定された値以下のもののみ返す
   def findByOrderQuantityLTE(param)
+    "where(\"orderQuantity <= ?\", #{params})"
   end
 
   # orderStateが文字列として完全一致で指定されたもののみ返す
   def findByOrderState(param)
+    "where(orderState: '#{param}')"
   end
 
   # 指定されたタグが全て含まれる注文情報のみ返す
