@@ -14,8 +14,9 @@ default: &default
   encoding: utf8
   pool: 5
   username: root
-  password:
+  password: 5TNKr847
   host: localhost
+  reconnect: false
 
 development:
   <<: *default
@@ -50,5 +51,5 @@ test:
 production:
   <<: *default
   database: ec_production
-  username: ec
-  password: <%= ENV['EC_DATABASE_PASSWORD'] %>
+  username: root
+  password: 5TNKr847
