@@ -7,6 +7,6 @@ json.data do
     json.orderItemId order.orderItemId
     json.orderQuantity order.orderQuantity
     json.orderState order.orderState
-    json.tags order.orderTags.split(",")
+    json.orderTags order.orderTags.split(",")
   end
 end
