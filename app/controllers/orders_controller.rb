@@ -18,7 +18,6 @@ class OrdersController < ApplicationController
       @orders = []
     elsif @base_flag == 1
       chains_data = []
-      binding.pry
       chains_data = chains.flatten.uniq.sort{|a, b| a[1] <=> b[1]}
       @orders = [ chains_data[0, limit] ]
     else
@@ -53,12 +52,12 @@ class OrdersController < ApplicationController
 
   #  orderQuantityが指定された値以上のもののみ返す
   def findByOrderQuantityGTE(param)
-    "where(\"orderQuantity >= ?\", #{params})"
+    "where('orderQuantity >= ?', #{param})"
   end
 
   # orderQuantityが指定された値以下のもののみ返す
   def findByOrderQuantityLTE(param)
-    "where(\"orderQuantity <= ?\", #{params})"
+    "where(\"orderQuantity <= ?\", #{param})"
   end
 
   # orderStateが文字列として完全一致で指定されたもののみ返す
@@ -109,14 +108,14 @@ class OrdersController < ApplicationController
   def findByUserDiscountRateGTE(param)
     users = User.where("userDiscountRate <= ?", param)
     conditions = userIdConditions(users)
-    "where('" << conditions.join(" or ") < "')" unless conditions.empty?
+    "where('" << conditions.join(" or ") << "')" unless conditions.empty?
   end
 
   # FIXME: userDiscountRateが指定された値以下の顧客の注文情報のみ返す
   def findByUserDiscountRateLTE(param)
     users = User.where("userDiscountRate >= ?", param)
     conditions = userIdConditions(users)
-    "where('" << conditions.join(" or ") < "')" unless conditions.empty?
+    "where('" << conditions.join(" or ") << "')" unless conditions.empty?
   end
 
 
