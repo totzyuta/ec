@@ -29,7 +29,7 @@ class OrdersController < ApplicationController
   private
 
   # 指定された日時以降
-  def findByOrderDateTimeGTE(param)
+  eef findByOrderDateTimeGTE(param)
     # NOTE: データはorderDateTime順 
     # => ひとつ境界線がわかればあとは計算しなくてもわかる
     "where(\"orderDateTime > ?\", #{param})"
@@ -106,14 +106,16 @@ class OrdersController < ApplicationController
 
   # FIXME: userDiscountRateが指定された値以上の顧客の注文情報のみ返す
   def findByUserDiscountRateGTE(param)
-    users = User.where("userDiscountRate <= ?", param)
+    @base_flag = 1
+    "SELECT * FROM users WHERE userDiscountRate >= id"
+    users = User.where("userDiscountRate >= ?", param)
     conditions = userIdConditions(users)
     "where('" << conditions.join(" or ") << "')" unless conditions.empty?
   end
 
   # FIXME: userDiscountRateが指定された値以下の顧客の注文情報のみ返す
   def findByUserDiscountRateLTE(param)
-    users = User.where("userDiscountRate >= ?", param)
+    users = User.where("userDiscountRate <= ?", param)
     conditions = userIdConditions(users)
     "where('" << conditions.join(" or ") << "')" unless conditions.empty?
   end
