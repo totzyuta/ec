@@ -69,5 +69,54 @@ class OrdersController < ApplicationController
 
   # 指定されたタグがひとつでも含まれる注文情報のみ返す
   def findByOrderTagsIncludeAny(param)
+    ActiveRecord::Base.connection.select_all(query)
+  end
+
+
+  ##
+  # findByUser
+  
+  # userCompanyが文字列として完全一致で指定された顧客の注文情報
+  def findByUserCompany(param)
+  end
+
+  # userDiscountRateが指定された値以上の顧客の注文情報のみ返す
+  def findByUserDiscountRateGTE(param)
+  end
+
+  # userDiscountRateが指定された値以下の顧客の注文情報のみ返す
+  def findByUserDiscountRateLTE(param)
+  end
+
+
+  ##
+  # findByItem
+
+  # itemSupplierが文字列として完全一致で指定された商品の注文情報のみ返す
+  def findByItemSupplier(param)
+  end
+
+  # itemStockQuantityが指定された値以上の商品の注文情報のみ返す
+  def findByItemStockQuantityGTE(param)
+  end
+
+  # itemStockQuantityが指定された値以下の商品の注文情報
+  def findByItemStockQuantityLTE(param)
+  end
+
+  # itemBasePriceが指定された値以上の商品の注文情報のみ返す
+  def findByItemBasePriceGTE(param)
+  end
+
+  # itemBasePriceが指定された値以下の商品の注文情報の見返す
+  def findByItemBasePriceLTE(param)
+  end
+
+  # 指定されたタグが全て含まれる商品の注文情報のみ返す
+  def findByItemTagsIncludeAll(param)
+  end
+
+  # 指定されたタグがひとつでも含まれている
+  def findByItemTagsIncludeAny(param)
   end
 end
